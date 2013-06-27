@@ -41,7 +41,7 @@ def email_field():
 def street_field():
     return forms.CharField(max_length=200,
                            label='Adresse',
-                           widget=forms.TextInput(attrs={ 'placeholder': 'N° Rue' }))
+                           widget=forms.TextInput(attrs={ 'placeholder': 'N° Rue', 'class': 'input-xlarge' }))
 
 def postal_code_field():
     return forms.CharField(max_length=200,
@@ -64,7 +64,7 @@ def mobile_field():
                            widget=forms.TextInput(attrs={ 'placeholder': '(+33) 06 01 02 03 04' }))
 
 def redirection_status_field():
-    return forms.BooleanField(label='Rediriger l\'adresse @rezomen.fr', required=False)
+    return forms.BooleanField(label='Activer la redirection de votre adresse @rezomen.fr', required=False)
 
 def redirects_to_field():
     return forms.EmailField(label="Email de redirection", 
