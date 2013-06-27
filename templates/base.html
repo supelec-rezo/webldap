@@ -25,13 +25,14 @@
 
       <nav>
         {% if logged_in %}
-          <a href="/logout"><strong>déconnexion</strong> ({{ logged_uid }})</a> |
+          <a href="/logout/"><strong>Déconnexion</strong> ({{ logged_uid }})</a> |
+          <a href="/account/"><strong>Compte</strong></a> |
         {% else %}
-          <a href="/login"><strong>connexion</strong></a> |
+          <a href="/login/"><strong>Connexion</strong></a> |
         {% endif %}
 
-        <a href="/">accueil</a> |
-        <a href="/help">aide</a>
+        <a href="/">Accueil</a> |
+        <a href="/help">Aide</a>
       </nav>
 
       <div id="content" class="container well">
