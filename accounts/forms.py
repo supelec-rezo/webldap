@@ -22,6 +22,16 @@ def lastname_field():
                            widget=forms.TextInput(attrs={ 'placeholder': 'Nom' }))
 
 # ***********************************
+# Description
+# ***********************************
+
+def description_field():
+    return forms.CharField(max_length=256,
+                           label='Nom',
+                           widget=forms.TextInput(attrs={ 'placeholder': 'Entrez ici votre description', 'class': 'input-xxlarge' })
+                           )
+
+# ***********************************
 # Contact
 # ***********************************
 def email_field():
@@ -78,6 +88,8 @@ class AccountContactForm(forms.Form):
     redirection_status = redirection_status_field()
     redirects_to = redirects_to_field() 
 
+class AccountDescriptionForm(forms.Form):
+    description = description_field()
 
 class RequestPasswdForm(forms.ModelForm):
     uid = uid_field()

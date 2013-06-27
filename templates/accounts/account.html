@@ -37,8 +37,12 @@
     {% endif %}
   </div>
 
-  <h3>Description</h3>
+  <hr/>
+
+  <h3>Description<span class="edit-link">[<a href="edit/contact/">Éditer</a>]</span></h3>
   <p>{{ user.description }}</p>
+
+  <hr/>
 
   <h3>Contact<span class="edit-link">[<a href="edit/contact/">Éditer</a>]</span></h3>
   <table class="table summary-table table-striped table-condensed">
@@ -72,6 +76,8 @@
     </tr>
   </table>
 
+  <hr/>
+
   <h3>Vos informations sur les serveurs</h3>
   <table class="table summary-table table-striped table-condensed">
     <tr>
@@ -88,6 +94,8 @@
     </tr>
   </table>
 
+  <hr/>
+
   <h3>Alias</h3>
   {% if user.aliases %}
     <ul>
@@ -100,6 +108,8 @@
       Votre entrée ne correspond à aucun alias.
     </div>
   {% endif %}
+
+  <hr/>
 
   <h3>Accès</h3>
 

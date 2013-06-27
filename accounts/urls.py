@@ -5,4 +5,5 @@ urlpatterns = patterns('accounts.views',
     url(r'^account/$', 'account'),
     url(r'^account/jpeg_photo/$', 'jpeg_photo'),
     url(r'^account/edit/contact/$', 'edit_contact'),
+    url(r'^account/edit/description/$', 'edit_description'),
 )

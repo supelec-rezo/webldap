@@ -8,7 +8,7 @@ from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.core.mail import send_mail
 from django.utils import timezone
 
-from accounts.forms import (LoginForm, AccountContactForm, RequestPasswdForm, ProcessPasswdForm)
+from accounts.forms import *
 
 from models import Request
 
@@ -121,3 +121,39 @@ def edit_contact(request, db):
     c.update(csrf(request))
 
     return render_to_response('accounts/edit_contact.html', c, context_instance=RequestContext(request))
+
+
+@connect_ldap
+def edit_description(request, db):
+    uid = request.session.get('ldap_uid', None)
+    user = LdapUser(database = db, primary_value = uid)
+
+    if request.method == 'POST':
+        form = AccountDescriptionForm(request.POST)
+        
+        if form.is_valid():
+            new_attributes = {
+                'description': form.cleaned_data['description'],
+            }
+
+            try:
+                user.update_attributes(new_attributes)
+                user.save()
+            except ConstraintViolation:
+                request.flash['error'] = "La mise à jour des données transgresse une contrainte du LDAP."
+            except InsufficientAccess:
+                request.flash['error'] = "La mise à jour des données requiert des droits que vous ne possédez pas."
+            except Exception:
+                request.flash['error'] = "Une erreur s'est produite lors de la mise à jour."
+            else:
+                request.flash['success'] = "Votre description a été mise à jour avec succès."
+                return HttpResponseRedirect(reverse(account))
+
+    else:
+        form = AccountDescriptionForm(label_suffix='', 
+                                initial={ 'description': user.description })
+
+    c = { 'form': form }
+    c.update(csrf(request))
+
+    return render_to_response('accounts/edit_description.html', c, context_instance=RequestContext(request))
