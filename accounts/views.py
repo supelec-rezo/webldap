@@ -8,8 +8,7 @@ from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.core.mail import send_mail
 from django.utils import timezone
 
-from accounts.forms import (LoginForm, ProfileForm, RequestAccountForm, RequestPasswdForm,
-                            ProcessAccountForm, ProcessPasswdForm)
+from accounts.forms import (LoginForm, AccountContactForm, RequestPasswdForm, ProcessPasswdForm)
 
 from models import Request
 
@@ -58,7 +57,7 @@ def account(request, db):
     uid = request.session.get('ldap_uid', None)
     user = LdapUser(database = db, primary_value = uid)
 
-    return render_to_response('accounts/profile.html', {'user': user}, context_instance=RequestContext(request))
+    return render_to_response('accounts/account.html', {'user': user}, context_instance=RequestContext(request))
 
 
 @connect_ldap
@@ -73,3 +72,51 @@ def jpeg_photo(request, db):
     response = HttpResponse(mimetype="image/jpeg")
     image.save(response, "jpeg")
     return response
+
+@connect_ldap
+def edit_contact(request, db):
+    uid = request.session.get('ldap_uid', None)
+    user = LdapUser(dabatase = db, primary_value = uid)
+
+    if request.method == 'POST':
+        form = AccountContactForm(request.POST)
+        
+        if form.is_valid():
+            new_attributes = {
+                'street': form.cleaned_data['street'],
+                'city': form.cleaned_data['city'],
+                'postal_code': form.cleaned_data['postal_code'],
+                'postal_address': form.cleaned_data['postal_address'],
+                'mobile': form.cleaned_data['mobile'],
+                'rezomen_email_redirects_to': form.cleaned_data['redirects_to'],
+                'rezomen_email_redirection_status': ('TRUE' if form.cleaned_data['redirection_status'] == True else 'FALSE')
+            }
+
+            try:
+                user.update_attributes(new_attributes)
+                user.save()
+            except ConstraintViolation:
+                request.flash['error'] = "La mise à jour des données transgresse une contrainte du LDAP."
+            except Exception:
+                request.flash['error'] = "Une erreur s'est produite lors de la mise à jour."
+            else:
+                request.flash['success'] = "Vos coordonnées ont été mises à jour avec succès."
+                return HttpResponseRedirect(reverse(account))
+
+    else:
+        request.flash['error'] = "Le formulaire n'est pas valide."
+        form = AccountContactForm(label_suffix='', 
+                                initial={ 
+                                    'street': user.street,
+                                    'city': user.city,
+                                    'postal_code': user.postal_code,
+                                    'postal_address': user.postal_address,
+                                    'mobile': user.mobile,
+                                    'redirects_to': user.rezomen_email_redirects_to,
+                                    'redirection_status': (True if form.cleaned_data['rezomen_email_redirection_status'] == 'True'else False)
+                                })
+
+    c = { 'form': form }
+    c.update(csrf(request))
+
+    return render_to_response('accounts/edit_contact.html', c, context_instance=RequestContext(request))

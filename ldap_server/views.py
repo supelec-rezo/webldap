@@ -93,7 +93,7 @@ def passwd(request):
                 req.type = Request.PASSWD
                 req.save()
 
-                t = loader.get_template('accounts/email_passwd_request')
+                t = loader.get_template('accounts/mailer/passwd_request')
                 c = Context({
                         'name': user.display_name,
                         'url': request.build_absolute_uri(reverse(process, kwargs={ 'token': req.token })),

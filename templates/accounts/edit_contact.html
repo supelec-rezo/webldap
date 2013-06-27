@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Edition des coordonnées{% endblock %}
+
+{% block content %}
+{% load bootstrap_toolkit %}
+
+<h1 class="center">Edition des coordonnées</h1>
+
+{% include "flashes.html" %}
+
+<form action="." method="post" class="form-horizontal">
+  {% csrf_token %}
+
+  {{ form|as_bootstrap }}
+
+  <div class="form-actions">
+      <input type="submit" class="btn btn-primary" value="Valider" />
+  </div>
+</form>
+
+{% endblock %}

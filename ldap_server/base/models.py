@@ -18,6 +18,9 @@ class NoDatabaseProvided(Exception):
 class ConstraintViolation(Exception):
     pass
 
+class UnknownAttribute(Exception):
+    pass
+
 class LdapModel(object):
     
     base_dn = "dc=rezomen,dc=fr"
@@ -112,6 +115,14 @@ class LdapModel(object):
 
     def delete(self):
         self.database.delete_s(self.dn)
+
+    def update_attributes(self, attrs):
+        for attr,value in attrs:
+            if not attr in self.attrs_map:
+                raise UnknownAttribute(attr)
+
+            else:
+                setattr(self, attr, value)
 
     def save(self):
         if not self.dn:
