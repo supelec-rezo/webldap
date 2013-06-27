@@ -1,0 +1,160 @@
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, em, img, strong, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+  border: 0 none;
+  margin: 0;
+  outline: 0 none;
+  padding: 0;
+}
+
+body {
+  text-align: center;
+}
+
+#all {
+  margin: auto;
+}
+
+header {
+  height: 120px;
+  width: 940px;
+
+  text-align: center;
+  margin: auto;
+}
+
+header #rezo-logo {
+  float: left;
+}
+
+header #federez-logo{
+  float: left;
+}
+
+.logo{
+  margin-top: 10px;
+  max-height: 100px;
+}
+
+header p {
+  height: 130px;
+  margin: 0;
+  margin-left: 125px;
+  text-align: center;
+  line-height: 130px;
+  font-size: 30px;
+  overflow: hidden; /* hides sitename when zooming */
+}
+
+span#hl {
+  color: #54E;
+  font-family: mono;
+}
+
+nav {
+  width: 940px;
+  margin: auto;
+
+  padding-right: 0em;
+  padding-bottom: .2em;
+
+  margin-bottom: 0;
+  font-size: .9em;
+  text-align: right;
+}
+
+#content {
+  clear: both;
+  text-align: left;
+
+  margin: auto;
+}
+
+#identity-image{
+  margin: auto;
+  text-align: center;
+}
+
+#identity-image img{
+  border: 5px solid #FFF;
+  box-shadow: 5px 5px 5px #888;
+
+  max-height: 150px;
+  max-width: 200px;
+}
+
+.accesses-table td:nth-child(2){
+  text-align: center;
+}
+
+.accesses-table thead th{
+  text-align: center;
+}
+
+.center{
+  text-align: center;
+}
+
+h3 span.edit-link{
+  vertical-align: middle;
+
+  line-height: 1em;
+  
+  font-size: 0.6em;
+  font-weight: normal;
+}
+
+.summary-table th {
+  width: 250px;
+}
+
+.ok{
+  color: green;
+}
+
+.ko{
+  color: red;
+}
+
+footer {
+  width: 940px;
+  margin: .5em auto;
+}
+
+h1.center {
+  margin-bottom: 1em;
+}
+
+h2 {
+  font-size: 1.1em;
+  margin: 1em 0;
+}
+
+p.user_data {
+  margin: .2em .5em;
+}
+
+#password-constraints ul{
+  list-style: none;
+  margin-left: 0;
+  padding-left: 1em;
+  text-indent: -1em;
+}
+
+#password-constraints ul li:before{
+  padding-right: 0.5em;
+}
+
+#password-constraints ul li.valid:before {
+ content: "✓";
+ color: green;
+}
+
+#password-constraints ul li.invalid:before {
+ content: "✗";
+ color: red;
+}
+
+#password-constraints ul ul {
+  font-size: 0.85em;
+}
+
+

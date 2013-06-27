@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Accueil{% endblock %}
+{% block content %}
+
+<h1 class="center">Accueil</h1>
+
+<h3>Modifications récentes</h3>
+<h5>Refactoring important</h5>
+<ul>
+  <li>Code plus propre!</li>
+  <li>Ajout de modèles, fragmentation en cours entre comptes (personnes), accès (leurs accès), et vues générales (login, aide, ...)</li>
+  <li>Retrait des vues qui n'ont pas été encore migrées (édition de profil)</li>
+</ul>
+
+<hr/>
+
+<h3>Modifications prévues</h3>
+<h5>Moyen terme</h5>
+<ul>
+  <li>Possibilité d'édition des informations personnelles</li>
+  <li>Possibilité de gestion des droits</li>
+</ul>
+
+<h5>Plus long terme</h5>
+<ul>
+  <li>Formulaire pour création automatique de compte</li>
+  <li>Gestion des pribilèges d'édition pour permettre aux administrateurs de gérer les membres depuis webldap</li>
+</ul>
+
+{% endblock %}

@@ -20,11 +20,11 @@ Architecture
 ------------
 
 This Django project is meant to be simple. One app `accounts` inside the
-`federez_ldap` project.
+`ldap_server` project.
 
 Main files:
 
-    federez_ldap/
+    ldap_server/
         settings.py: project settings
         settings_local.sample.py: sample settings to be completed and renamed
     accounts/

@@ -1,28 +1,179 @@
-{% extends "accounts/base.html" %}
-{% block title %}Identité{% endblock %}
+{% extends "base.html" %}
+{% block title %}Résumé{% endblock %}
 {% block content %}
-<h1>Accueil</h1>
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-<h2>Identité</h2>
-<p><a href="/edit">modifier</a></p>
-<p class="user_data"><strong>Nom : </strong>{{ name }}</p>
-<p class="user_data"><strong>Pseudo : </strong>{{ nick }}</p>
-<p class="user_data"><strong>Email : </strong>{{ email }}</p>
-<h2>Associations</h2>
-<ul>
-  {% for org in orgs %}
-  <li>
-    {{ org.name }}
-    | <a href="/org/{{ org.uid }}">{% if org.is_owner %}gérer{% else %}voir{% endif %}</a>
-  </li>
-  {% endfor %}
-</ul>
-<h2>Groupes</h2>
-<ul>
-  {% for group in groups %}
-  <li>
-    {{ group.name }}
-  </li>
-  {% endfor %}
-</ul>
+
+  <h1 class="center">Résumé du compte LDAP</h1>
+
+  {% include "flashes.html" %}
+
+  <h3>Identité</h3>
+  <div class="row-fluid">
+    <div class="{% if user.photo %}span9{% else %}span12{% endif %}">
+      <table class="table summary-table table-striped table-condensed">
+        <tr>
+          <th>Prénom</th><td>{{ user.first_name }}</td>
+        </tr>
+        <tr>
+          <th>Nom</th><td>{{ user.last_name }}</td>
+        </tr>
+        <tr>
+          <th>UID</th><td>{{ user.username }}</td>
+        </tr>
+        <tr>
+          <th>Pseudo</th><td>{{ user.nick }}</td>
+        </tr>
+        <tr>
+          <th>Promotion</th><td>{{ user.promo }}</th>
+        </tr>
+      </table>
+    </div>
+
+    {% if user.photo %}
+      <div class="span3">
+        <div id="identity-image">
+          <img src="jpeg_photo/" alt="Image d'identité" />
+        </div>
+      </div>
+    {% endif %}
+  </div>
+
+  <h3>Description</h3>
+  <p>{{ user.description }}</p>
+
+  <h3>Contact</h3>
+  <table class="table summary-table table-striped table-condensed">
+    <tr>
+      <th>Email de contact</th><td><a href="mailto:{{ user.contact_email }}">{{ user.contact_email }}</a></td>
+    </tr>
+    <tr>
+      <th>Adresse de l'association</th>
+      <td>
+        <a href="mailto:{{ user.rezomen_email }}">{{ user.rezomen_email }}</a> (redirige vers <a href="mailto:{{ user.rezomen_email_redirects_to }}">{{ user.rezomen_email_redirects_to }}</a>)
+      </td>
+    </tr>
+    <tr>
+      <th>Statut de la redirection</th>
+      <td>
+        {% if user.rezomen_email_redirection_status == 'TRUE' %}
+          <strong class="ok">Active</strong>
+        {% else %}
+          <strong class="ko">Inactive</strong>
+        {% endif %}
+      </td>
+    </tr>
+    <tr>
+      <th>Mobile</th><td>{{ user.mobile }}</td>
+    </tr>
+    <tr>
+      <th>Adresse</th><td>{{ user.address }}</th>
+    </tr>
+    <tr>
+      <th>Casier / BàL</th><td>{{ user.postal_address }}</th>
+    </tr>
+  </table>
+
+  <h3>Vos informations sur les serveurs</h3>
+  <table class="table summary-table table-striped table-condensed">
+    <tr>
+      <th>Identifiant</th><td>{{ user.nick }}</td>
+    </tr>
+    <tr>
+      <th>UID/GID</th><td>{{ user.uid }} / {{ user.gid }}</td>
+    </tr>
+    <tr>
+      <th>Home</th><td>{{ user.home }}</td>
+    </tr>
+    <tr>
+      <th>Shell</th><td>{{ user.shell }}</td>
+    </tr>
+  </table>
+
+  <h3>Alias</h3>
+  {% if user.aliases %}
+    <ul>
+      {% for alias in user.aliases %}
+        <li>{{ alias.display_name }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <div class="alert alert-info">
+      Votre entrée ne correspond à aucun alias.
+    </div>
+  {% endif %}
+
+  <h3>Accès</h3>
+
+  <div class="row">
+    <div class="span4">
+      <h5 class="center">Serveurs</h5>
+      {% if user.server_accesses %}
+        <table class="table table-striped table-condensed accesses-table">
+          <thead>
+            <tr>
+              <th>Serveur</th>
+              <th>Sudoer</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% for access in user.server_accesses %}
+              <tr>
+                <td>{{ access.display_name }}</td> 
+                <td>
+                  {% if user.dn in access.get_sudoers_dn %}
+                    <strong class="ok">✓</strong>
+                  {% else %}
+                    <strong class="ko">✗</strong>
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <div class="alert alert-info">
+          Vous n'avez accès à aucun serveur.
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="span4">
+      <h5 class="center">Applications</h5>
+      {% if user.application_accesses %}
+        <ul>
+          {% for access in user.application_accesses %}
+            <li>
+              <a href="{{ access.url }}">{{ access.display_name }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <div class="alert alert-info">
+          Vous n'avez accès à aucune application.
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="vertical-separator"></div>
+
+    <div class="span4">
+      <h5 class="center">HTTP</h5>
+      {% if user.web_accesses %}
+        <ul>
+          {% for access in user.web_accesses %}
+            <li>
+              <a href="{{ access.url }}">{{ access.display_name }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <div class="alert alert-info">
+          Vous n'avez accès à aucun site web protégé.
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
 {% endblock %}
+
+

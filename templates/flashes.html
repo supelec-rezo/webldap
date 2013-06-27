@@ -1,0 +1,20 @@
+{% block flashes %}
+  {% if flash.error %}
+    <div id="error" class="alert alert-danger">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <i class="icon-ban-circle"></i> {{ flash.error|safe }}
+    </div>
+  {% endif %}
+  {% if flash.success %}
+    <div id="success" class="alert alert-success">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <i class="icon-ok"></i> {{ flash.success|safe }}
+    </div>
+  {% endif %}
+  {% if flash.warning %}
+    <div id="warning" class="alert alert-warning">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      {{ flash.warning|safe }}
+    </div>
+  {% endif %}
+{% endblock %}

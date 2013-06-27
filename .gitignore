@@ -1,4 +1,4 @@
-federez_ldap/settings_local.py
+ldap_server/settings_local.py
 db
 *.pyc
 .*swp

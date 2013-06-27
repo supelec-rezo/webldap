@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Nouveau mot de passe{% endblock %}
+
+{% block content %}
+{% load bootstrap_toolkit %}
+
+  <h1 class="center">Nouveau mot de passe</h1>
+
+  {% include "flashes.html" %}
+
+  <div id="password-constraints" class="alert alert-info">
+    <p><strong>Votre mot de passe doit respecter les contraintes suivantes:</strong></p>
+    <ul>
+      <li id="pwd-length" class="invalid">Longueur minimale de 10 caractères.</li>
+      <li id="pwd-class" class="invalid">Doit respecter au moins 3 des 4 contraintes suivantes:</li>
+      <ul>
+        <li id="pwd-lower" class="invalid">Comporte une lettre minuscule</li>
+        <li id="pwd-upper" class="invalid">Comporte une lettre majuscule</li>
+        <li id="pwd-number" class="invalid">Comporte un chiffre</li>
+        <li id="pwd-punct" class="invalid">Comporte un caractère de ponctuation</li>
+      </ul>
+    </ul>
+  </div>
+
+  <form action="." method="post" class="password-form form-horizontal">
+    {% csrf_token %}
+    
+    {{ form|as_bootstrap }}
+    
+    <div class="form-actions">
+      <input type="submit" class="btn btn-primary" value="Confirmer" />
+    </div>
+  
+  </form>
+
+  <script>
+    $(function(){
+      check_password_constraints();
+    });
+  </script>
+
+
+
+{% endblock %}

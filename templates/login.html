@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Connexion{% endblock %}
+
+{% block content %}
+{% load bootstrap_toolkit %}
+
+<h1 class="center">Connexion</h1>
+
+{% include "flashes.html" %}
+
+<form action="." method="post" class="form-horizontal">
+  {% csrf_token %}
+
+  {{ form|as_bootstrap }}
+
+  <div class="form-actions">
+      <input type="submit" class="btn btn-primary" value="Connexion" />
+      <a href="/passwd/">Mot de passe oublié?</a>
+  </div>
+
+  <input type="hidden" name="next" value="{{ next }}" />
+</form>
+
+{% endblock %}
