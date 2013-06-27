@@ -96,13 +96,13 @@ def edit_contact(request, db):
                 user.update_attributes(new_attributes)
                 user.save()
             except ConstraintViolation:
-                request.flash['error'] = "La mise Ã  jour des donnÃ©es transgresse une contrainte du LDAP."
+                request.flash['error'] = "La mise à jour des données transgresse une contrainte du LDAP."
             except InsufficientAccess:
-                request.flash['error'] = "La mise Ã  jour des donnÃs requiert des droits que vous ne possÃ©dez pas."
+                request.flash['error'] = "La mise à jour des données requiert des droits que vous ne possédez pas."
             except Exception:
-                request.flash['error'] = "Une erreur s'est produite lors de la mise Ã  jour."
+                request.flash['error'] = "Une erreur s'est produite lors de la mise à jour."
             else:
-                request.flash['success'] = "Vos coordonnÃ©es ont Ã©tÃ© mises Ã  jour avec succÃ¨s."
+                request.flash['success'] = "Vos coordonnées ont été mises à jour avec succès."
                 return HttpResponseRedirect(reverse(account))
 
     else:
