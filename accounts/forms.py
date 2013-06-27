@@ -27,7 +27,7 @@ def lastname_field():
 
 def description_field():
     return forms.CharField(max_length=256,
-                           label='Nom',
+                           label='Description',
                            widget=forms.TextInput(attrs={ 'placeholder': 'Entrez ici votre description', 'class': 'input-xxlarge' })
                            )
 
