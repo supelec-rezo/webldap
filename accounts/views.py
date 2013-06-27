@@ -76,7 +76,7 @@ def jpeg_photo(request, db):
 @connect_ldap
 def edit_contact(request, db):
     uid = request.session.get('ldap_uid', None)
-    user = LdapUser(dabatase = db, primary_value = uid)
+    user = LdapUser(database = db, primary_value = uid)
 
     if request.method == 'POST':
         form = AccountContactForm(request.POST)
@@ -97,6 +97,8 @@ def edit_contact(request, db):
                 user.save()
             except ConstraintViolation:
                 request.flash['error'] = "La mise à jour des données transgresse une contrainte du LDAP."
+            except InsufficientAccess:
+                request.flash['error'] = "La mise à jour des donn�s requiert des droits que vous ne possédez pas."
             except Exception:
                 request.flash['error'] = "Une erreur s'est produite lors de la mise à jour."
             else:
@@ -104,7 +106,6 @@ def edit_contact(request, db):
                 return HttpResponseRedirect(reverse(account))
 
     else:
-        request.flash['error'] = "Le formulaire n'est pas valide."
         form = AccountContactForm(label_suffix='', 
                                 initial={ 
                                     'street': user.street,
@@ -113,7 +114,7 @@ def edit_contact(request, db):
                                     'postal_address': user.postal_address,
                                     'mobile': user.mobile,
                                     'redirects_to': user.rezomen_email_redirects_to,
-                                    'redirection_status': (True if form.cleaned_data['rezomen_email_redirection_status'] == 'True'else False)
+                                    'redirection_status': (True if user.rezomen_email_redirection_status == 'TRUE' else False)
                                 })
 
     c = { 'form': form }

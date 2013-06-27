@@ -21,6 +21,9 @@ class ConstraintViolation(Exception):
 class UnknownAttribute(Exception):
     pass
 
+class InsufficientAccess(Exception):
+    pass
+
 class LdapModel(object):
     
     base_dn = "dc=rezomen,dc=fr"
@@ -116,13 +119,21 @@ class LdapModel(object):
     def delete(self):
         self.database.delete_s(self.dn)
 
+    def encode(self, value):
+        if isinstance(value, list):
+            return [encode(val) for val in value]
+        elif isinstance(value, (str,unicode)):
+            return value.encode('utf-8')
+
+        return value
+
     def update_attributes(self, attrs):
-        for attr,value in attrs:
+        for attr,value in attrs.iteritems():
             if not attr in self.attrs_map:
                 raise UnknownAttribute(attr)
 
             else:
-                setattr(self, attr, value)
+                setattr(self, attr, self.encode(value))
 
     def save(self):
         if not self.dn:
@@ -141,9 +152,10 @@ class LdapModel(object):
 
             try:
                 self.database.add_s(new_dn, entry)
-
             except ldap.CONSTRAINT_VIOLATION:
                 raise ConstraintViolation
+            except ldap.INSUFFICIENT_ACCESS:
+                raise InsufficientAccess
 
             # update object
             self.dn = new_dn
@@ -178,6 +190,8 @@ class LdapModel(object):
 
                 except ldap.CONSTRAINT_VIOLATION:
                     raise ConstraintViolation
+                except ldap.INSUFFICIENT_ACCESS:
+                    raise InsufficientAccess
 
             else:
                 pass

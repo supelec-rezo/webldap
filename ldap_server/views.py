@@ -8,8 +8,7 @@ from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.core.mail import send_mail
 from django.utils import timezone
 
-from accounts.forms import (LoginForm, ProfileForm, RequestAccountForm, RequestPasswdForm,
-                            ProcessAccountForm, ProcessPasswdForm)
+from accounts.forms import (LoginForm, RequestPasswdForm, ProcessPasswdForm)
 
 from accounts.models import Request
 

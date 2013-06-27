@@ -95,11 +95,14 @@ nav {
 
 h3 span.edit-link{
   vertical-align: middle;
-
   line-height: 1em;
   
   font-size: 0.6em;
   font-weight: normal;
+  
+  display: inline-block;
+  margin-left: 15px;
+  margin-bottom: 0.25em;
 }
 
 .summary-table th {

@@ -65,6 +65,9 @@ class LdapDatabase(object):
 
     def modify_s(self, dn, modlist):
         logger.info('Modifying entry \'%s\'' % dn)
+        if modlist:
+          logger.debug('Modifying attributes: %s' % ', '.join([mod[1] for mod in modlist]))
+
         cursor = self._cursor()
         return cursor.connection.modify_s(dn.encode(self.charset), modlist)
 
