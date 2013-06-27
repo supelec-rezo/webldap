@@ -8,7 +8,7 @@ MANAGERS = ADMINS
 
 # Flash Messages Configuration
 FLASH_STORAGE = 'session'       # Optional ('session', 'cookie')
-FLASH_CODEC = 'json' # Optional
+FLASH_CODEC = 'json'            # Optional
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -60,7 +60,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    '/var/www/webldap-dev/static/',
+    '/var/www/webldap/static/',
 )
 
 # List of finder classes that know how to find static files in
@@ -71,8 +71,6 @@ STATICFILES_FINDERS = (
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
-# Make this unique, and don't share it with anybody.
-SECRET_KEY = '&amp;%_)uh4i3u%7fmcm98$tu+r03619eb!qqrwzhk92%eyl0@tdt5'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (

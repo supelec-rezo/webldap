@@ -24,6 +24,9 @@ TEMPLATE_DIRS = (
     os.path.join(SETTINGS_PATH, '../templates/')
 )
 
+# Make this unique, and don't share it with anybody.
+SECRET_KEY = 'SET ME'
+
 # Settings specific to 'accounts'
 
 # SMTP relay (host and port) to use for confirmation mails
