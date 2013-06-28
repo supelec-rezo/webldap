@@ -73,6 +73,47 @@ def jpeg_photo(request, db):
     image.save(response, "jpeg")
     return response
 
+
+@connect_ldap
+def edit_identity(request, db):
+    uid = request.session.get('ldap_uid', None)
+    user = LdapUser(database = db, primary_value = uid)
+
+    if request.method == 'POST':
+        form = AccountIdentityForm(request.POST)
+        
+        if form.is_valid():
+            new_attributes = {
+                'first_name': form.cleaned_data['first_name'],
+                'last_name': form.cleaned_data['last_name']
+            }
+
+            try:
+                user.update_attributes(new_attributes)
+                user.save()
+            except ConstraintViolation:
+                request.flash['error'] = "La mise à jour des données transgresse une contrainte du LDAP."
+            except InsufficientAccess:
+                request.flash['error'] = "La mise à jour des données requiert des droits que vous ne possédez pas."
+            except Exception:
+                request.flash['error'] = "Une erreur s'est produite lors de la mise à jour."
+            else:
+                request.flash['success'] = "Votre identité a été mise à jour avec succès."
+                return HttpResponseRedirect(reverse(account))
+
+    else:
+        form = AccountIdentityForm(label_suffix='', 
+                                initial={ 
+                                    'first_name': user.first_name,
+                                    'last_name': user.last_name
+                                })
+
+    c = { 'form': form }
+    c.update(csrf(request))
+
+    return render_to_response('accounts/edit_identity.html', c, context_instance=RequestContext(request))
+
+
 @connect_ldap
 def edit_contact(request, db):
     uid = request.session.get('ldap_uid', None)

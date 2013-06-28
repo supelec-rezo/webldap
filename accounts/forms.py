@@ -11,12 +11,12 @@ def passwd_field():
     return forms.CharField(label='Mot de passe', 
                             widget=forms.PasswordInput(attrs={ 'placeholder': 'Mot de passe' }))
 
-def firstname_field():
+def first_name_field():
     return forms.CharField(max_length=200,
                            label='Prénom',
                            widget=forms.TextInput(attrs={'placeholder': 'Prénom'}))
 
-def lastname_field():
+def last_name_field():
     return forms.CharField(max_length=200,
                            label='Nom',
                            widget=forms.TextInput(attrs={ 'placeholder': 'Nom' }))
@@ -88,8 +88,15 @@ class AccountContactForm(forms.Form):
     redirection_status = redirection_status_field()
     redirects_to = redirects_to_field() 
 
+
 class AccountDescriptionForm(forms.Form):
     description = description_field()
+
+
+class AccountIdentityForm(forms.Form):
+    first_name = first_name_field()
+    last_name = last_name_field()
+
 
 class RequestPasswdForm(forms.ModelForm):
     uid = uid_field()
