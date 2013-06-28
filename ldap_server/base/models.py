@@ -135,7 +135,12 @@ class LdapModel(object):
             else:
                 setattr(self, attr, self.encode(value))
 
+    def before_save(self):
+        pass
+
     def save(self):
+        self.before_save()
+
         if not self.dn:
             # Create a new entry 
             entry = [('objectClass', self.object_classes)]

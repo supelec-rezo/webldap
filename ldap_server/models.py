@@ -76,7 +76,6 @@ class LdapUser(LdapModel):
 
         self._init_groups()
 
-
     def _init_groups(self):
         if hasattr(self, 'groups'):
             self.access_groups = {
@@ -88,6 +87,13 @@ class LdapUser(LdapModel):
 
             self.association_groups = helpers.group_filter(SUBTREES_REGEXPS['Groups'])(self.groups)
             self.promotion_groups = helpers.group_filter(SUBTREES_REGEXPS['Promotions'])(self.groups)
+
+
+    def before_save(self):
+        # Formats firstname and lastname
+        self.last_name = self.last_name.upper()
+        self.first_name = self.first_name.capitalize()
+        self.display_name = '%s %s' %(self.first_name, self.last_name)
 
 
     def displayable_photo(self):
