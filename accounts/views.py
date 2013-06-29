@@ -99,7 +99,8 @@ def edit_identity(request, db):
                 request.flash['error'] = "Une erreur s'est produite lors de la mise à jour."
             else:
                 request.flash['success'] = "Votre identité a été mise à jour avec succès."
-                return HttpResponseRedirect(reverse(account))
+                return render_to_response('home.html', context_instance=RequestContext(request))
+                return HttpResponseRedirect(reverse('accounts.views.account'))
 
     else:
         form = AccountIdentityForm(label_suffix='', 
@@ -144,7 +145,7 @@ def edit_contact(request, db):
                 request.flash['error'] = "Une erreur s'est produite lors de la mise à jour."
             else:
                 request.flash['success'] = "Vos coordonnées ont été mises à jour avec succès."
-                return HttpResponseRedirect(reverse(account))
+                return HttpResponseRedirect(reverse('accounts.views.account'))
 
     else:
         form = AccountContactForm(label_suffix='', 
@@ -188,7 +189,7 @@ def edit_description(request, db):
                 request.flash['error'] = "Une erreur s'est produite lors de la mise à jour."
             else:
                 request.flash['success'] = "Votre description a été mise à jour avec succès."
-                return HttpResponseRedirect(reverse(account))
+                return HttpResponseRedirect(reverse('accounts.views.account'))
 
     else:
         form = AccountDescriptionForm(label_suffix='', 

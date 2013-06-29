@@ -50,7 +50,7 @@ def login(request, redirect_field_name = REDIRECT_FIELD_NAME):
                 request.flash['error'] = "Le serveur LDAP est injoignable."
 
             except ConnectionError:
-                error_msg = 'Erreur de connexion'
+                request.flash['error'] = "Une erreur indéterminée s'est produite lors de la connexion."
         
             else:
                 request.session['ldap_connected'] = True
@@ -73,7 +73,7 @@ def logout(request, redirect_field_name=REDIRECT_FIELD_NAME, next=None):
     redirect_to = next or request.REQUEST.get(redirect_field_name, '/')
     request.session.flush()
     request.flash['success'] = "Déconnexion réussie."
-    return HttpResponseRedirect(reverse(login))
+    return HttpResponseRedirect(reverse('ldap_server.views.login'))
 
 def passwd(request):
     if request.method == 'POST':
@@ -106,7 +106,7 @@ def passwd(request):
                         fail_silently=False)
 
                 request.flash['success'] = "Un email a été envoyé à <a href=\"mailto:%(email)s\">%(email)s</a> pour que vous puissiez changer votre mot de passe." % {'email': req.email.encode("utf-8")}
-                return HttpResponseRedirect(reverse(login))
+                return HttpResponseRedirect(reverse('ldap_server.views.login'))
     else:
         form = RequestPasswdForm(label_suffix='')
 
@@ -144,7 +144,7 @@ def process_passwd(request, req):
                 req.delete()
 
                 request.flash['success'] = "Votre mot de passe a été réinitialisé avec succès."
-                return HttpResponseRedirect(reverse(login))
+                return HttpResponseRedirect(reverse('ldap_server.views.login'))
     
     else:
         form = ProcessPasswdForm(label_suffix='')
