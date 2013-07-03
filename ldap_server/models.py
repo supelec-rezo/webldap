@@ -186,7 +186,7 @@ class LdapAlias(LdapModel):
 
 class LdapServerAccessGroup(LdapModel):
     base_dn = "ou=ServerAccess,ou=AccessGroups,dc=rezomen,dc=fr"
-    object_classes = ['groupOfNames', 'OpenLDAPdisplayableObject']
+    object_classes = ['groupOfUniqueNames', 'OpenLDAPdisplayableObject']
     primary_key = 'cn'
 
     attrs_map = {
@@ -196,7 +196,7 @@ class LdapServerAccessGroup(LdapModel):
         'owners':           LdapField(db_column = 'owner', multivalued = True),
 
         # Members
-        'members':          LdapField(db_column = 'member', multivalued = True)
+        'members':          LdapField(db_column = 'uniqueMember', multivalued = True)
     }
 
     def __init__(self, *args, **kwargs):
@@ -218,7 +218,7 @@ class LdapServerAccessGroup(LdapModel):
 class LdapSudoAccessGroup(LdapModel):
 
     suffix_dn = "ou=SudoAccess,ou=AccessGroups,dc=rezomen,dc=fr"
-    object_classes = ['groupOfNames', 'OpenLDAPdisplayableObject', 'posixAccount']
+    object_classes = ['groupOfUniqueNames', 'OpenLDAPdisplayableObject', 'posixAccount']
     primary_key = 'cn'
 
     attrs_map = {
@@ -233,7 +233,7 @@ class LdapSudoAccessGroup(LdapModel):
         'homeDirectory':    LdapField(db_column = 'homeDirectory', default = '/dev/null'),
 
         # Members
-        'members':          LdapField(db_column = 'member', multivalued = True)
+        'members':          LdapField(db_column = 'uniqueMember', multivalued = True)
     }
 
     def __init__(self, server, *args, **kwargs):
@@ -251,7 +251,7 @@ class LdapSudoAccessGroup(LdapModel):
 
 class LdapApplicationAccessGroup(LdapModel):
     base_dn = "ou=ApplicationAccess,ou=AccessGroups,dc=rezomen,dc=fr"
-    object_classes = ['groupOfNames', 'OpenLDAPdisplayableObject', 'labeledURIObject']
+    object_classes = ['groupOfUniqueNames', 'OpenLDAPdisplayableObject', 'labeledURIObject']
     primary_key = 'cn'
 
     attrs_map = {
@@ -264,7 +264,7 @@ class LdapApplicationAccessGroup(LdapModel):
         'owners':           LdapField(db_column = 'owner', multivalued = True),
 
         # Members
-        'members':          LdapField(db_column = 'member', multivalued = True)
+        'members':          LdapField(db_column = 'uniqueMember', multivalued = True)
     }
 
     def __init__(self, *args, **kwargs):
@@ -273,7 +273,7 @@ class LdapApplicationAccessGroup(LdapModel):
 
 class LdapWebAccessGroup(LdapModel):
     base_dn = "ou=WebAccess,ou=AccessGroups,dc=rezomen,dc=fr"
-    object_classes = ['groupOfNames', 'OpenLDAPdisplayableObject', 'labeledURIObject']
+    object_classes = ['groupOfUniqueNames', 'OpenLDAPdisplayableObject', 'labeledURIObject']
     primary_key = 'cn'
 
     attrs_map = {
@@ -286,7 +286,7 @@ class LdapWebAccessGroup(LdapModel):
         'owners':           LdapField(db_column = 'owner', multivalued = True),
 
         # Members
-        'members':          LdapField(db_column = 'member', multivalued = True)
+        'members':          LdapField(db_column = 'uniqueMember', multivalued = True)
     }
 
     def __init__(self, *args, **kwargs):
