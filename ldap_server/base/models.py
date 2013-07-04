@@ -200,3 +200,34 @@ class LdapModel(object):
 
             else:
                 pass
+
+    @classmethod
+    def find_all(cls, database):
+        primary_value = '*'
+        results = []
+
+        if database:
+            classes_filter = ''.join(['(objectClass=%s)' % clss for clss in cls.object_classes])
+            primary_filter = '(%s=%s)'%(cls.primary_key, primary_value)
+
+            filter = '(&%s%s)' % (classes_filter, primary_filter)
+         
+            # Array of results (tuples)
+            entries = self.database.search_s(base = cls.base_dn, 
+                                        scope = ldap.SCOPE_SUBTREE, 
+                                        filterstr = filter, 
+                                        attrlist = [cls.primary_key])
+
+            for entry in entries:
+                attributes = entry[1]
+                value = attributes[cls.primary_key][0]
+
+                if not value:
+                    continue
+
+                results.append(type(cls)(database = database, primary_value = value, custom_filter = None))
+
+        else:
+            raise NoDatabaseProvided(self.database)
+
+        return results
