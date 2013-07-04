@@ -213,7 +213,7 @@ class LdapModel(object):
             filter = '(&%s%s)' % (classes_filter, primary_filter)
          
             # Array of results (tuples)
-            entries = self.database.search_s(base = cls.base_dn, 
+            entries = database.search_s(base = cls.base_dn, 
                                         scope = ldap.SCOPE_SUBTREE, 
                                         filterstr = filter, 
                                         attrlist = [cls.primary_key])
@@ -225,9 +225,9 @@ class LdapModel(object):
                 if not value:
                     continue
 
-                results.append(type(cls)(database = database, primary_value = value, custom_filter = None))
+                results.append(cls(database = database, primary_value = value, custom_filter = None))
 
         else:
-            raise NoDatabaseProvided(self.database)
+            raise NoDatabaseProvided(database)
 
         return results
