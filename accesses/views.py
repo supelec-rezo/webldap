@@ -78,6 +78,11 @@ def show(request, db, type, name):
         return HttpResponseNotFound('<h1>Invalid access type</h1>')
     
     if access:
-        return render_to_response('accesses/show.html', {'access': access, 'members': access.get_members(), 'type': type}, context_instance=RequestContext(request))
+        return render_to_response('accesses/show.html', {
+                            'access': access, 
+                            'members': access.get_members(), 
+                            'owners': access.get_owners(), 
+                            'type': type
+                        }, context_instance=RequestContext(request))
     else:
         return HttpResponseNotFound('<h1>Access not found</h1>')

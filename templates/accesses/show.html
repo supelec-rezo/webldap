@@ -32,6 +32,21 @@
         <th>Nombre de membres</th><td>{{ access.members|length }}</a></td>
       </tr>
     </table>
+
+    <h3 class="center">Gérants</h3>
+    {% if owners %}
+      <table class="table table-condensed table-striped">
+        {% for owner in owners %}
+          <tr><td>{{ owner.display_name }}</td></tr>
+        {% endfor %}
+      </table>
+
+    {% else %}
+      <div class="alert alert-info">
+        Ce groupe d'accès ne possède pas de gérant.
+      </div>
+    {% endif %}
+
   </div>
 
   <div class="span6">

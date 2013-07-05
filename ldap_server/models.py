@@ -214,11 +214,33 @@ class LdapAccessGroup(LdapModel):
 
         for member_dn in self.members:
             name = re.match(SUBTREES_REGEXPS['People'], member_dn).group('uid')
+            if name:
+                user = LdapUser(self.database, name)
+            else:
+                name = re.match(SUBTREES_REGEXPS['Alias'], member_dn).group('uid'):
+                if name:
+                    alias = LdapAlias(self.database, name)
+                    user = alias.get_user()
+                else:
+                    continue
 
-            if not name:
-                continue
-                
-            user = LdapUser(self.database, name)
+        return sorted(result)
+
+    def get_owners(self):
+        result = []
+
+        for owner_dn in self.owners:
+            name = re.match(SUBTREES_REGEXPS['People'], owner_dn).group('uid')
+            if name:
+                user = LdapUser(self.database, name)
+            else:
+                name = re.match(SUBTREES_REGEXPS['Alias'], owner_dn).group('uid'):
+                if name:
+                    alias = LdapAlias(self.database, name)
+                    user = alias.get_user()
+                else:
+                    continue
+
             result.append(user)
 
         return sorted(result)
@@ -263,11 +285,16 @@ class LdapServerAccessGroup(LdapAccessGroup):
 
         for member_dn in self.members:
             name = re.match(SUBTREES_REGEXPS['People'], member_dn).group('uid')
+            if name:
+                user = LdapUser(self.database, name)
+            else:
+                name = re.match(SUBTREES_REGEXPS['Alias'], member_dn).group('uid'):
+                if name:
+                    alias = LdapAlias(self.database, name)
+                    user = alias.get_user()
+                else:
+                    continue
 
-            if not name:
-                continue
-                
-            user = LdapUser(self.database, name)
             sudoer = True if member_dn in sudoers_dn else False
             result.append((user, sudoer))
 
