@@ -92,6 +92,17 @@
     <tr>
       <th>Shell</th><td>{{ user.shell }}</td>
     </tr>
+    {% if user.shadow_min %}
+      <tr>
+        <th>ShadowMin</th><td>{{ user.shadow_min }}</td>
+      </tr>
+      <tr>
+        <th>ShadowMax</th><td>{{ user.shadow_max }}</td>
+      </tr>
+      <tr>
+        <th>ShadowWarning</th><td>{{ user.shadow_warning }}</td>
+      </tr>
+    {% end %} 
   </table>
 
   <hr/>
