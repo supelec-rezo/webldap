@@ -7,6 +7,19 @@
 {% include "flashes.html" %}
 
 <h3>Modifications récentes</h3>
+<h5>Ajout d'un index des accès</h3>
+<ul>
+  <li>Ajout de la liste de tous les accès disponibles par LDAP</li>
+  <li>Pour chaque accès, une vue affichant les informations de base, et les membres</li>
+</ul>
+
+<h5>Possibilité d'éditer quelques informations</h5>
+<ul>
+  <li>Édition des coordonnées personnelles</li>
+  <li>Édition des noms et prénoms</li>
+  <li>Édition de la description</li>
+</ul>
+
 <h5>Refactoring important</h5>
 <ul>
   <li>Code plus propre!</li>
@@ -19,14 +32,14 @@
 <h3>Modifications prévues</h3>
 <h5>Moyen terme</h5>
 <ul>
-  <li>Possibilité d'édition des informations personnelles</li>
-  <li>Possibilité de gestion des droits</li>
+  <li>Possibilité d'édition de l'image personnelle</li>
+  <li>Gestion des privilèges d'édition pour permettre aux administrateurs de gérer les membres depuis webldap</li>
+  <li>Possibilité de gestion des droits d'accès</li>
 </ul>
 
 <h5>Plus long terme</h5>
 <ul>
   <li>Formulaire pour création automatique de compte</li>
-  <li>Gestion des pribilèges d'édition pour permettre aux administrateurs de gérer les membres depuis webldap</li>
 </ul>
 
 {% endblock %}
