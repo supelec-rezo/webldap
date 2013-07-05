@@ -10,8 +10,6 @@ from django.utils import timezone
 
 from accounts.forms import *
 
-from models import Request
-
 from ldap_server.backend.base import *
 from ldap_server.base.models import *
 from ldap_server.models import *

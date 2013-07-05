@@ -7,14 +7,47 @@
 <div class="row">
   <div class="span4">
     <h3 class="center">Serveur</h3>
+    {% if server_accesses %}
+      <ul>
+        {% for access in server_accesses %}
+          <li>{{ access.display_name }}</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <div class="alert alert-info">
+        Aucun accès aux serveurs n'est disponnible par le LDAP
+      </div>
+    {% endif %}
   </div>
 
   <div class="span4">
     <h3 class="center">Applications</h3>
+    {% if application_accesses %}
+      <ul>
+        {% for access in application_accesses %}
+          <li>{{ access.display_name }}</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <div class="alert alert-info">
+        Aucun accès aux applications n'est disponnible par le LDAP
+      </div>
+    {% endif %}
   </div>
 
   <div class="span4">
     <h3 class="center">Sites web</h3>
+    {% if web_accesses %}
+      <ul>
+        {% for access in web_accesses %}
+          <li>{{ access.display_name }}</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <div class="alert alert-info">
+        Aucun accès aux sites web n'est disponnible par le LDAP
+      </div>
+    {% endif %}
   </div>
   
 </div>

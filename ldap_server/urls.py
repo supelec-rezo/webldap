@@ -22,6 +22,7 @@ urlpatterns = patterns('ldap_server.views',
 
     # Accounts urls
     url(r'', include('accounts.urls')),
+    url(r'', include('accesses.urls')),
 
 
     # Uncomment the admin/doc line below to enable admin documentation:
