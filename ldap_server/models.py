@@ -213,16 +213,20 @@ class LdapAccessGroup(LdapModel):
         result = []
 
         for member_dn in self.members:
-            name = re.match(SUBTREES_REGEXPS['People'], member_dn).group('uid')
-            if name:
+            r = re.match(SUBTREES_REGEXPS['People'], member_dn)
+            if r:
+                name = r.group('uid')
                 user = LdapUser(self.database, name)
             else:
-                name = re.match(SUBTREES_REGEXPS['Alias'], member_dn).group('uid'):
-                if name:
+                r = re.match(SUBTREES_REGEXPS['Alias'], member_dn)
+                if r:
+                    name = r.group('uid')
                     alias = LdapAlias(self.database, name)
                     user = alias.get_user()
                 else:
                     continue
+
+            result.append(user)
 
         return sorted(result)
 
@@ -230,12 +234,14 @@ class LdapAccessGroup(LdapModel):
         result = []
 
         for owner_dn in self.owners:
-            name = re.match(SUBTREES_REGEXPS['People'], owner_dn).group('uid')
-            if name:
+            r = re.match(SUBTREES_REGEXPS['People'], owner_dn)
+            if r:
+                name = r.group('uid')
                 user = LdapUser(self.database, name)
             else:
-                name = re.match(SUBTREES_REGEXPS['Alias'], owner_dn).group('uid'):
-                if name:
+                r = re.match(SUBTREES_REGEXPS['Alias'], owner_dn)
+                if r:
+                    name = r.group('uid')
                     alias = LdapAlias(self.database, name)
                     user = alias.get_user()
                 else:
@@ -284,12 +290,14 @@ class LdapServerAccessGroup(LdapAccessGroup):
         sudoers_dn = self.get_sudoers_dn()
 
         for member_dn in self.members:
-            name = re.match(SUBTREES_REGEXPS['People'], member_dn).group('uid')
-            if name:
+            r = re.match(SUBTREES_REGEXPS['People'], member_dn)
+            if r:
+                name = r.group('uid')
                 user = LdapUser(self.database, name)
             else:
-                name = re.match(SUBTREES_REGEXPS['Alias'], member_dn).group('uid'):
-                if name:
+                r = re.match(SUBTREES_REGEXPS['Alias'], member_dn)
+                if r:
+                    name = r.group('uid')
                     alias = LdapAlias(self.database, name)
                     user = alias.get_user()
                 else:
