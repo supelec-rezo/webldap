@@ -4,9 +4,9 @@
 
 {% if type == "app" %}
   <h1 class="center">Accès à l'application {{ access }}</h1>
-{% else if type == "server" %}
+{% elif type == "server" %}
   <h1 class="center">Accès au serveur {{ access }}</h1>
-{% else if type == "web" %}
+{% elif type == "web" %}
   <h1 class="center">Accès au site {{ access }}</h1>
 {% endif %}
 
@@ -19,7 +19,7 @@
         <th>Nom</th><td>{{ access }}</td>
       </tr>
       <tr>
-        <th>Common Name</th><td>{{ access.name }}</td>
+        <th>Identifiant</th><td>{{ access.name }}</td>
       </tr>
       {% if type == "web" or type == "app" %}
         <tr>
@@ -38,8 +38,8 @@
     {% if members %}
       <ul>
         {% for member in members %}
-          <li>{{ member }}</li>
-        {% endif %}
+          <li>{{ member.display_name }}</li>
+        {% endfor %}
       </ul>
     {% else %}
       <div class="alert alert-info">

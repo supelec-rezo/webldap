@@ -157,7 +157,7 @@ class LdapUser(LdapModel):
         return self.display_name
 
     def __lt__(self, other):
-        return self.display_name < other.display_name
+        return self.last_name < other.last_name
 
 
 class LdapAlias(LdapModel):
@@ -206,7 +206,7 @@ class LdapAccessGroup(LdapModel):
         'members':          LdapField(db_column = 'uniqueMember', multivalued = True)
     }
 
-    def __init__(self, server, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super(LdapAccessGroup, self).__init__(*args, **kwargs)
 
     def get_members(self):
@@ -219,7 +219,7 @@ class LdapAccessGroup(LdapModel):
                 continue
                 
             user = LdapUser(self.database, name)
-            retult.append(user)
+            result.append(user)
 
         return sorted(result)
 
