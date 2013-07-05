@@ -12,7 +12,7 @@
     {% if server_accesses %}
       <ul>
         {% for access in server_accesses %}
-          <li>{{ access.display_name }}</li>
+          <li><a href="/accesses/server/{{ access.name }}/">{{ access.display_name }}</a></li>
         {% endfor %}
       </ul>
     {% else %}
@@ -27,7 +27,7 @@
     {% if application_accesses %}
       <ul>
         {% for access in application_accesses %}
-          <li>{{ access.display_name }}</li>
+          <li><a href="/accesses/app/{{ access.name }}/">{{ access.display_name }}</a></li>
         {% endfor %}
       </ul>
     {% else %}
@@ -42,7 +42,7 @@
     {% if web_accesses %}
       <ul>
         {% for access in web_accesses %}
-          <li>{{ access.display_name }}</li>
+          <li><a href="/accesses/web/{{ access.name }}/">{{ access.display_name }}</a></li>
         {% endfor %}
       </ul>
     {% else %}

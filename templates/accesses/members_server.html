@@ -1,4 +1,3 @@
-{% extends "accesses/show.html" %}
 {% block content %}
 
   {% if members %}
@@ -7,7 +6,7 @@
         <th>Membre</th>
         <th>Sudoer</th>
       </tr>
-      
+
       {% for member,sudoer in members %}
         <tr>
           <td>{{ member.display_name }}</td>
@@ -16,7 +15,7 @@
               <strong class="ok">✓</strong>
             {% else %}
               <strong class="ko">✗</strong>
-            {% endif %}}
+            {% endif %}
           </td>
         </tr>
       {% endfor %}
