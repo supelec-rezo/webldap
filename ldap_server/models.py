@@ -12,6 +12,7 @@ import re
 from constants import SUBTREES_REGEXPS
 import helpers
 
+
 class LdapUser(LdapModel):
 
     base_dn = "ou=People,dc=rezomen,dc=fr"
@@ -158,6 +159,7 @@ class LdapUser(LdapModel):
     def __lt__(self, other):
         return self.display_name < other.display_name
 
+
 class LdapAlias(LdapModel):
     base_dn = "ou=Aliases,dc=rezomen,dc=fr"
     object_classes = ['alias', 'OpenLDAPdisplayableObject']
@@ -189,7 +191,49 @@ class LdapAlias(LdapModel):
         return self.display_name < other.display_name
 
 
-class LdapServerAccessGroup(LdapModel):
+class LdapAccessGroup(LdapModel):
+    suffix_dn = "ou=AccessGroups,dc=rezomen,dc=fr"
+    object_classes = ['groupOfUniqueNames', 'OpenLDAPdisplayableObject']
+    primary_key = 'cn'
+
+    attrs_map = {
+        # Information
+        'name':             LdapField(db_column = 'cn'),
+        'display_name':     LdapField(db_column = 'displayName'),
+        'owners':           LdapField(db_column = 'owner', multivalued = True),
+
+        # Members
+        'members':          LdapField(db_column = 'uniqueMember', multivalued = True)
+    }
+
+    def __init__(self, server, *args, **kwargs):
+        super(LdapAccessGroup, self).__init__(*args, **kwargs)
+
+    def get_members(self):
+        result = []
+
+        for member_dn in self.members:
+            name = re.match(SUBTREES_REGEXPS['People'], member_dn).group('uid')
+
+            if not name:
+                continue
+                
+            user = LdapUser(self.database, name)
+            retult.append(user)
+
+        return sorted(result)
+
+    def __str__(self):
+        return self.name
+
+    def __unicode__(self):
+        return self.display_name
+
+    def __lt__(self, other):
+        return self.display_name < other.display_name
+
+
+class LdapServerAccessGroup(LdapAccessGroup):
     base_dn = "ou=ServerAccess,ou=AccessGroups,dc=rezomen,dc=fr"
     object_classes = ['groupOfUniqueNames', 'OpenLDAPdisplayableObject']
     primary_key = 'cn'
@@ -213,16 +257,8 @@ class LdapServerAccessGroup(LdapModel):
     def get_sudoers_dn(self):
         return self.get_sudoers_group().members
 
-    def __str__(self):
-        return self.name
 
-    def __unicode__(self):
-        return self.display_name
-
-    def __lt__(self, other):
-        return self.display_name < other.display_name
-
-class LdapSudoAccessGroup(LdapModel):
+class LdapSudoAccessGroup(LdapAccessGroup):
 
     suffix_dn = "ou=SudoAccess,ou=AccessGroups,dc=rezomen,dc=fr"
     object_classes = ['groupOfUniqueNames', 'OpenLDAPdisplayableObject', 'posixAccount']
@@ -249,16 +285,8 @@ class LdapSudoAccessGroup(LdapModel):
 
         super(LdapSudoAccessGroup, self).__init__(*args, **kwargs)
 
-    def __str__(self):
-        return self.name
 
-    def __unicode__(self):
-        return self.display_name
-
-    def __lt__(self, other):
-        return self.display_name < other.display_name
-
-class LdapApplicationAccessGroup(LdapModel):
+class LdapApplicationAccessGroup(LdapAccessGroup):
     base_dn = "ou=ApplicationAccess,ou=AccessGroups,dc=rezomen,dc=fr"
     object_classes = ['groupOfUniqueNames', 'OpenLDAPdisplayableObject', 'labeledURIObject']
     primary_key = 'cn'
@@ -279,16 +307,8 @@ class LdapApplicationAccessGroup(LdapModel):
     def __init__(self, *args, **kwargs):
         super(LdapApplicationAccessGroup, self).__init__(*args, **kwargs)
 
-    def __str__(self):
-        return self.name
 
-    def __unicode__(self):
-        return self.display_name
-
-    def __lt__(self, other):
-        return self.display_name < other.display_name
-
-class LdapWebAccessGroup(LdapModel):
+class LdapWebAccessGroup(LdapAccessGroup):
     base_dn = "ou=WebAccess,ou=AccessGroups,dc=rezomen,dc=fr"
     object_classes = ['groupOfUniqueNames', 'OpenLDAPdisplayableObject', 'labeledURIObject']
     primary_key = 'cn'
@@ -308,12 +328,3 @@ class LdapWebAccessGroup(LdapModel):
 
     def __init__(self, *args, **kwargs):
         super(LdapWebAccessGroup, self).__init__(*args, **kwargs)
-
-    def __str__(self):
-        return self.name
-
-    def __unicode__(self):
-        return self.display_name
-    
-    def __lt__(self, other):
-        return self.display_name < other.display_name

@@ -50,6 +50,7 @@ def connect_ldap(view, login_url='/login', redirect_field_name=REDIRECT_FIELD_NA
     
     return _view
 
+
 @connect_ldap
 def index(request, db):
     application_accesses = LdapApplicationAccessGroup.find_all(database=db)
@@ -61,3 +62,20 @@ def index(request, db):
                                 'server_accesses': server_accesses,
                                 'web_accesses': web_accesses
                                 }, context_instance=RequestContext(request))
+
+
+@connect_ldap
+def show(request, db, type, name):
+    if type == "app":
+        access = LdapApplicationAccessGroup(database=db, primary_value=name)
+    elif type == "server":
+        access = LdapServerAccessGroup(database=db, primary_value=name)
+    elif type == "web":
+        access = LdapWebAccessGroup(database=db, primary_value=name)
+    else:
+        return HttpResponseNotFound('<h1>Invalid access type</h1>')
+    
+    if access:
+        return render_to_response('access': access, 'members': access.get_members(), 'type': type}, context_instance=RequestContext(request))
+    else:
+        return HttpResponseNotFound('<h1>Access not found</h1>')

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}{{ access.display_name }}{% endblock %}
+{% block content %}
+
+{% if type == "app" %}
+  <h1 class="center">Accès à l'application {{ access }}</h1>
+{% else if type == "server" %}
+  <h1 class="center">Accès au serveur {{ access }}</h1>
+{% else if type == "web" %}
+  <h1 class="center">Accès au site {{ access }}</h1>
+{% endif %}
+
+<div class="row">
+  <div class="span6">
+    <h3 class="center">Informations</h3>
+
+    <table class="table table-condensed table-striped">
+      <tr>
+        <th>Nom</th><td>{{ access }}</td>
+      </tr>
+      <tr>
+        <th>Common Name</th><td>{{ access.name }}</td>
+      </tr>
+      {% if type == "web" or type == "app" %}
+        <tr>
+          <th>URL d'accès</th><td><a href="{{ access.url }}">{{ access.url }}</a></td>
+        </tr>
+      {% endif %}
+      <tr>
+        <th>Nombre de membres</th><td>{{ access.members|length }}</a></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="span6">
+    <h3 class="center">Membres</h3>
+    
+    {% if members %}
+      <ul>
+        {% for member in members %}
+          <li>{{ member }}</li>
+        {% endif %}
+      </ul>
+    {% else %}
+      <div class="alert alert-info">
+        Cet accès n'est accordé à aucun membre.
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}
