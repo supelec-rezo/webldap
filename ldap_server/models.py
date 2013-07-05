@@ -155,6 +155,8 @@ class LdapUser(LdapModel):
     def __unicode__(self):
         return self.display_name
 
+    def __lt__(self, other):
+        return self.display_name < other.display_name
 
 class LdapAlias(LdapModel):
     base_dn = "ou=Aliases,dc=rezomen,dc=fr"
@@ -182,6 +184,9 @@ class LdapAlias(LdapModel):
 
     def __unicode__(self):
         return self.display_name
+    
+    def __lt__(self, other):
+        return self.display_name < other.display_name
 
 
 class LdapServerAccessGroup(LdapModel):
@@ -214,6 +219,8 @@ class LdapServerAccessGroup(LdapModel):
     def __unicode__(self):
         return self.display_name
 
+    def __lt__(self, other):
+        return self.display_name < other.display_name
 
 class LdapSudoAccessGroup(LdapModel):
 
@@ -248,6 +255,8 @@ class LdapSudoAccessGroup(LdapModel):
     def __unicode__(self):
         return self.display_name
 
+    def __lt__(self, other):
+        return self.display_name < other.display_name
 
 class LdapApplicationAccessGroup(LdapModel):
     base_dn = "ou=ApplicationAccess,ou=AccessGroups,dc=rezomen,dc=fr"
@@ -276,6 +285,8 @@ class LdapApplicationAccessGroup(LdapModel):
     def __unicode__(self):
         return self.display_name
 
+    def __lt__(self, other):
+        return self.display_name < other.display_name
 
 class LdapWebAccessGroup(LdapModel):
     base_dn = "ou=WebAccess,ou=AccessGroups,dc=rezomen,dc=fr"
@@ -303,3 +314,6 @@ class LdapWebAccessGroup(LdapModel):
 
     def __unicode__(self):
         return self.display_name
+    
+    def __lt__(self, other):
+        return self.display_name < other.display_name

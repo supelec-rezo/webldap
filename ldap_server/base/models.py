@@ -230,4 +230,4 @@ class LdapModel(object):
         else:
             raise NoDatabaseProvided(database)
 
-        return results
+        return sorted(results)
