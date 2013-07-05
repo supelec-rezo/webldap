@@ -1,0 +1,17 @@
+{% extends "accesses/show.html" %}
+{% block content %}
+
+  {% if members %}
+    <table class="table table-condensed table-striped">
+      {% for member in members %}
+        <tr><td>{{ member.display_name }}</td></tr>
+      {% endfor %}
+    </table
+
+  {% else %}
+    <div class="alert alert-info">
+      Cet accès n'est accordé à aucun membre.
+    </div>
+  {% endif %}
+
+{% endblock %}

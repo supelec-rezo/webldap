@@ -257,6 +257,22 @@ class LdapServerAccessGroup(LdapAccessGroup):
     def get_sudoers_dn(self):
         return self.get_sudoers_group().members
 
+    def get_members(self):
+        result = []
+        sudoers_dn = self.get_sudoers_dn()
+
+        for member_dn in self.members:
+            name = re.match(SUBTREES_REGEXPS['People'], member_dn).group('uid')
+
+            if not name:
+                continue
+                
+            user = LdapUser(self.database, name)
+            sudoer = True if member_dn in sudoers_dn else False
+            result.append((user, sudoer))
+
+        return sorted(result)
+
 
 class LdapSudoAccessGroup(LdapAccessGroup):
 

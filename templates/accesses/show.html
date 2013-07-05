@@ -10,6 +10,8 @@
   <h1 class="center">Accès au site {{ access }}</h1>
 {% endif %}
 
+{% include "flashes.html" %}
+
 <div class="row">
   <div class="span6">
     <h3 class="center">Informations</h3>
@@ -34,17 +36,10 @@
 
   <div class="span6">
     <h3 class="center">Membres</h3>
-    
-    {% if members %}
-      <ul>
-        {% for member in members %}
-          <li>{{ member.display_name }}</li>
-        {% endfor %}
-      </ul>
+    {% if type == "server" %}
+      {% include "accesses/members_server.html" %}
     {% else %}
-      <div class="alert alert-info">
-        Cet accès n'est accordé à aucun membre.
-      </div>
+      {% include "accesses/members_classic.html" %}
     {% endif %}
   </div>
 </div>
