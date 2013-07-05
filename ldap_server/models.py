@@ -270,6 +270,12 @@ class LdapApplicationAccessGroup(LdapModel):
     def __init__(self, *args, **kwargs):
         super(LdapApplicationAccessGroup, self).__init__(*args, **kwargs)
 
+    def __str__(self):
+        return self.name
+
+    def __unicode__(self):
+        return self.display_name
+
 
 class LdapWebAccessGroup(LdapModel):
     base_dn = "ou=WebAccess,ou=AccessGroups,dc=rezomen,dc=fr"
