@@ -8,7 +8,7 @@ from constants import SUBTREES_REGEXPS
 from models import *
 
 def group_filter(regexp):
-    return lambda groups: sorted([g for g in groups if re.match(regexp, g)])
+    return lambda groups: [g for g in groups if re.match(regexp, g)]
 
 def default_database():
     return LdapDatabase(settings.DEFAULT_BIND_DICT)

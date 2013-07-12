@@ -126,7 +126,7 @@ class LdapUser(LdapModel):
             server_name = re.match(SUBTREES_REGEXPS['ServerAccess'], server_dn).group('server')
             servers.append(LdapServerAccessGroup(self.database, server_name))
 
-        return servers
+        return sorted(servers)
 
     def application_accesses(self):
         apps = []
@@ -135,7 +135,7 @@ class LdapUser(LdapModel):
             group_name = re.match(SUBTREES_REGEXPS['ApplicationAccess'], group_dn).group('application')
             apps.append(LdapApplicationAccessGroup(self.database, group_name))
 
-        return apps
+        return sorted(apps)
 
     def web_accesses(self):
         accesses = []
@@ -144,7 +144,7 @@ class LdapUser(LdapModel):
             group_name = re.match(SUBTREES_REGEXPS['WebAccess'], group_dn).group('group')
             accesses.append(LdapWebAccessGroup(self.database, group_name))
 
-        return accesses
+        return sorted(accesses)
 
     def change_password(self, clear_password):
         self.hashedPassword = clear_password.encode('utf8')
